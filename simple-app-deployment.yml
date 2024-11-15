@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: simple-app
-        image: biraluu/simple-app:11852280543
+        image: biraluu/simple-app:11854108106
         ports:
         - containerPort: 5000
         resources:
