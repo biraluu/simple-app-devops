@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: simple-app
-        image: biraluu/simple-app:latest
+        image: biraluu/simple-app:{{IMAGE_TAG}}
         ports:
         - containerPort: 5000
         resources:
@@ -55,3 +55,28 @@ metadata:
     app: simple-app
 data:
   APP_ENV: "development"
+
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: simple-app
+#   namespace: argocd
+#   annotations:
+#     argocd-image-updater.argoproj.io/image-list: biraluu/simple-app
+#     argocd-image-updater.argoproj.io/write-back-method: git
+#     argocd-image-updater.argoproj.io/git-repo: https://github.com/biraluu/simple-app-devops.git
+#     argocd-image-updater.argoproj.io/git-branch: main
+#     argocd-image-updater.argoproj.io/git-user-name: biraluu
+#     argocd-image-updater.argoproj.io/git-email: as610271@gmail.com
+# spec:
+#   source:
+#     repoURL: https://github.com/biraluu/simple-app-devops.git
+#     targetRevision: main
+#     path: /
+#   destination:
+#     server: https://kubernetes.default.svc
+#     namespace: default
+#   project: default
+
+
