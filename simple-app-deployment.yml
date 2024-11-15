@@ -15,21 +15,20 @@ spec:
         app: simple-app
     spec:
       containers:
-      - name: simple-app
-        image: biraluu/simple-app:{{IMAGE_TAG}}
-        ports:
-        - containerPort: 5000
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-        envFrom:
-        - configMapRef:
-            name: simple-app-config
-
+        - name: simple-app
+          image: 'biraluu/simple-app:'
+          ports:
+            - containerPort: 5000
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+          envFrom:
+            - configMapRef:
+                name: simple-app-config
 ---
 apiVersion: v1
 kind: Service
@@ -45,7 +44,10 @@ spec:
       port: 80
       targetPort: 5000
   type: NodePort
-
+  template:
+    spec:
+      containers:
+        - image: 'biraluu/simple-app:'
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -55,28 +57,8 @@ metadata:
     app: simple-app
 data:
   APP_ENV: "development"
-
-# ---
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: simple-app
-#   namespace: argocd
-#   annotations:
-#     argocd-image-updater.argoproj.io/image-list: biraluu/simple-app
-#     argocd-image-updater.argoproj.io/write-back-method: git
-#     argocd-image-updater.argoproj.io/git-repo: https://github.com/biraluu/simple-app-devops.git
-#     argocd-image-updater.argoproj.io/git-branch: main
-#     argocd-image-updater.argoproj.io/git-user-name: biraluu
-#     argocd-image-updater.argoproj.io/git-email: as610271@gmail.com
-# spec:
-#   source:
-#     repoURL: https://github.com/biraluu/simple-app-devops.git
-#     targetRevision: main
-#     path: /
-#   destination:
-#     server: https://kubernetes.default.svc
-#     namespace: default
-#   project: default
-
-
+spec:
+  template:
+    spec:
+      containers:
+        - image: 'biraluu/simple-app:'
