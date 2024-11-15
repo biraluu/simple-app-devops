@@ -15,20 +15,21 @@ spec:
         app: simple-app
     spec:
       containers:
-        - name: simple-app
-          image: 'biraluu/simple-app:'
-          ports:
-            - containerPort: 5000
-          resources:
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
-          envFrom:
-            - configMapRef:
-                name: simple-app-config
+      - name: simple-app
+        image: biraluu/simple-app:{{IMAGE_TAG}}
+        ports:
+        - containerPort: 5000
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+        envFrom:
+        - configMapRef:
+            name: simple-app-config
+
 ---
 apiVersion: v1
 kind: Service
@@ -44,10 +45,7 @@ spec:
       port: 80
       targetPort: 5000
   type: NodePort
-  template:
-    spec:
-      containers:
-        - image: biraluu/simple-app:{{IMAGE_TAG}}
+
 ---
 apiVersion: v1
 kind: ConfigMap
