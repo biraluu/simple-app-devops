@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: simple-app
-        image: biraluu/simple-app:{{IMAGE_TAG}}
+        image: 'biraluu/simple-app:'
         ports:
         - containerPort: 5000
         resources:
